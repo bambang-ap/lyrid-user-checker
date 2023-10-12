@@ -8,11 +8,15 @@ import {
   ControlledComponentProps,
   withReactFormController,
 } from '@hoc/withReactHookForm';
+import {classNames, twColor} from '@utils';
+
+import {Text} from './Text';
 
 function InputComponent<F extends FieldValues>(
   props: ControlledComponentProps<F, InputProps>,
 ) {
-  const {controller, twClass, placeholder, autoFocus, multiline} = props;
+  const {controller, disabled, twClass, placeholder, autoFocus, multiline} =
+    props;
   const {
     field: {value, onChange, ...field},
   } = controller;
@@ -23,13 +27,16 @@ function InputComponent<F extends FieldValues>(
     <TextInput
       {...field}
       mode="outlined"
-      label={label}
+      label={<Text>{label}</Text>}
       multiline={multiline}
       autoFocus={autoFocus}
       value={value}
       onChangeText={onChange}
-      tw={twClass}
+      tw={classNames('bg-white text-black', twClass)}
+      textColor={twColor.black}
+      disabled={disabled}
       placeholder={placeholder}
+      underlineColor={twColor.transparent}
     />
   );
 }

@@ -24,7 +24,7 @@ function App() {
   const [initialState] = React.useState();
 
   return (
-    <SafeAreaView tw="flex-1">
+    <SafeAreaView tw="flex-1 bg-white">
       <StatusBar barStyle="dark-content" backgroundColor={twColor.white} />
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>

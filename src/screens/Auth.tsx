@@ -16,11 +16,11 @@ export default function AuthScreen() {
 
   function navigate(host: string) {
     setHost(host);
-    navigation.dispatch(StackAction('replace', RootStackList.ListUsers));
+    navigation.dispatch(StackAction('replace', RootStackList.Users));
   }
 
   return (
-    <AppScreen twClass="flex-1 gap-y-2 justify-center">
+    <AppScreen twClass="flex-1 bg-white gap-y-2 justify-center">
       <Button mode="contained" onPress={() => navigate(API_HOST)}>
         Reqres.in (Dummy data as test requirement)
       </Button>

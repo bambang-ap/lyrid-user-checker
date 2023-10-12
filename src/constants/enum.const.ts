@@ -1,4 +1,4 @@
-export enum EUserType {
-  P = 'personal',
-  G = 'group',
+export enum ESubmitType {
+  Add = 'add',
+  Edit = 'edit',
 }

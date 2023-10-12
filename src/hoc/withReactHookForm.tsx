@@ -12,6 +12,7 @@ import {
 
 type DefaultProps = {
   twClass?: string;
+  disabled?: boolean;
 };
 
 export type ControlledComponentProps<

@@ -1,11 +1,11 @@
 export enum RootStackList {
   Auth = 'Auth',
-  ListUsers = 'ListUsers',
+  Users = 'ListUsers',
   User = 'User',
 }
 
 export type RootStackParamList = {
   [RootStackList.Auth]: undefined;
-  [RootStackList.ListUsers]: undefined;
-  [RootStackList.User]: undefined;
+  [RootStackList.Users]: undefined;
+  [RootStackList.User]: undefined | {id: string};
 };

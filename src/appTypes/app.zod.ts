@@ -2,7 +2,7 @@ import {z} from 'zod';
 
 export type TUser = z.infer<typeof tUser>;
 export const tUser = z.object({
-  id: z.number(),
+  id: z.string(),
   email: z.string(),
   first_name: z.string(),
   last_name: z.string(),

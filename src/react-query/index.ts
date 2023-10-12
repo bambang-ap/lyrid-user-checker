@@ -2,7 +2,7 @@ import {useInfiniteQuery, useMutation, useQuery} from '@tanstack/react-query';
 import axios from 'axios';
 import {getRecoil} from 'recoil-nexus';
 
-import {TUser, tUser} from '@appTypes/app.zod';
+import {TLogin, TToken, TUser, tUser, TUserJob} from '@appTypes/app.zod';
 import {MutateOpts} from '@appTypes/propsType.type';
 import {atomApiHost} from '@recoils';
 import {createPagingResultSchema, createResultSchema} from '@utils';
@@ -61,7 +61,7 @@ export function useEditUser(mutateOpts?: MutateOpts) {
 
   return useMutation((user: TUser) => {
     const {id, email, first_name, last_name} = user;
-    return axios.put<string>(`${host}/users/${id}`, {
+    return axios.put<TUserJob>(`${host}/users/${id}`, {
       name: `${first_name} ${last_name}`,
       job: email,
     });
@@ -71,7 +71,15 @@ export function useEditUser(mutateOpts?: MutateOpts) {
 export function useDeleteUser(mutateOpts?: MutateOpts) {
   const host = getRecoil(atomApiHost);
 
-  return useMutation((id: string) => {
+  return useMutation((id: TUserJob) => {
     return axios.delete<void>(`${host}/users/${id}`);
+  }, mutateOpts);
+}
+
+export function useLogin(mutateOpts?: MutateOpts) {
+  const host = getRecoil(atomApiHost);
+
+  return useMutation((body: TLogin) => {
+    return axios.post<TToken>(`${host}/login`, body);
   }, mutateOpts);
 }

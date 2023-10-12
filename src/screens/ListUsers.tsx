@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -10,9 +10,10 @@ import {AnimatedFAB} from 'react-native-paper';
 
 import AppScreen from '@appComp/AppScreen';
 import {RootStackList} from '@appTypes/navigators.type';
+import {Icon} from '@components';
 import {useListUsers} from '@query';
 import {UserCard} from '@screenComp/UserCard';
-import {useStackNavigation} from '@utils';
+import {StackAction, useStackNavigation} from '@utils';
 
 export default function ListUsersScreen() {
   const [isExtended, setIsExtended] = React.useState(true);
@@ -20,15 +21,6 @@ export default function ListUsersScreen() {
   const {navigation} = useStackNavigation();
   const {dataList, hasNextPage, fetchNextPage, refetch, isFetchingNextPage} =
     useListUsers();
-
-  function onScroll({nativeEvent}: NativeSyntheticEvent<NativeScrollEvent>) {
-    const currentScrollPosition =
-      Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
-
-    setIsExtended(currentScrollPosition <= 0);
-  }
-
-  // const fabStyle = { [animateFrom]: 16 };
 
   function loadMore() {
     if (hasNextPage) fetchNextPage();
@@ -41,6 +33,25 @@ export default function ListUsersScreen() {
   function addNewUser() {
     navigation.navigate(RootStackList.User);
   }
+
+  function onScroll({nativeEvent}: NativeSyntheticEvent<NativeScrollEvent>) {
+    const currentScrollPosition =
+      Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
+
+    setIsExtended(currentScrollPosition <= 0);
+  }
+
+  function signOut() {
+    navigation.dispatch(StackAction('replace', RootStackList.Auth));
+  }
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight() {
+        return <Icon name="logout" onPress={signOut} />;
+      },
+    });
+  }, []);
 
   return (
     <AppScreen>

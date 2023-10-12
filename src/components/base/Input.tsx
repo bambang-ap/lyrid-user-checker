@@ -15,8 +15,15 @@ import {Text} from './Text';
 function InputComponent<F extends FieldValues>(
   props: ControlledComponentProps<F, InputProps>,
 ) {
-  const {controller, disabled, twClass, placeholder, autoFocus, multiline} =
-    props;
+  const {
+    controller,
+    onSubmit,
+    disabled,
+    twClass,
+    placeholder,
+    autoFocus,
+    multiline,
+  } = props;
   const {
     field: {value, onChange, ...field},
   } = controller;
@@ -27,7 +34,7 @@ function InputComponent<F extends FieldValues>(
     <TextInput
       {...field}
       mode="outlined"
-      label={<Text>{label}</Text>}
+      label={<Text>{label.ucwords()}</Text>}
       multiline={multiline}
       autoFocus={autoFocus}
       value={value}
@@ -37,6 +44,7 @@ function InputComponent<F extends FieldValues>(
       disabled={disabled}
       placeholder={placeholder}
       underlineColor={twColor.transparent}
+      onSubmitEditing={onSubmit}
     />
   );
 }

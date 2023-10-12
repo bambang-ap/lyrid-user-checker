@@ -23,8 +23,8 @@ export const tLogin = z.object({
   password: z.string(),
 });
 
-export type TLoginResp = z.infer<typeof tLoginResp>;
-export const tLoginResp = z.object({
-  id: z.string(),
+export type TToken = z.infer<typeof tToken>;
+export const tToken = z.object({
+  id: z.string().optional(),
   token: z.string(),
 });

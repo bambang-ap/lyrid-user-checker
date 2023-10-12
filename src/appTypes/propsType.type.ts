@@ -30,11 +30,12 @@ export type InputProps = {
   autoFocus?: boolean;
   multiline?: boolean;
   label?: string;
+  onSubmit?: NoopVoid;
 };
 
 export type IconProps = Pick<PropsIcon, 'onPress'> & {
   /**
-   * find icon name on https://static.enapter.com/rn/icons/material-community.html
+   * find icon name on https://fonts.google.com/icons?selected=Material+Icons+Outlined:hourglass_empty:&icon.query=sign
    */
   name: string;
   tw?: string;

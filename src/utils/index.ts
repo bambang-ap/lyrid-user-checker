@@ -79,7 +79,7 @@ export function mutateCallback(
     ...(withDefault
       ? {
           onError() {
-            prompt('Something went wrong', 'Pleas tray again');
+            prompt('Something went wrong', 'Pleas try again');
           },
         }
       : {}),

@@ -3,7 +3,8 @@ import {Alert} from 'react-native';
 import clsx from 'clsx';
 import {z} from 'zod';
 
-import {PromptOptions} from '@appTypes/propsType.type';
+import {MutateOpts, PromptOptions} from '@appTypes/propsType.type';
+import {CtrlProps} from '@hoc/withLoader';
 
 export * from './navigators';
 export {default as twColor} from 'tailwindcss/colors';
@@ -55,13 +56,38 @@ export function prompt(
   const isHasTitle = typeof messageOrOptions === 'string';
   const options = isHasTitle ? promptOptions : messageOrOptions;
 
-  Alert.prompt(
+  const {onConfirm, cancelText, confirmText, onCancel, noCancel} =
+    options ?? {};
+
+  Alert.alert(
     isHasTitle ? titleOrMessage : 'Alert',
     isHasTitle ? messageOrOptions : titleOrMessage,
-    [
-      {text: options?.confirmText ?? 'Yes', onPress: options?.onConfirm},
-      {text: options?.cancelText ?? 'No', onPress: options?.onCancel},
-    ],
-    'default',
+    !onConfirm
+      ? [{text: 'Ok'}]
+      : [
+          {text: confirmText ?? 'Yes', onPress: onConfirm},
+          noCancel ? {} : {text: cancelText ?? 'No', onPress: onCancel},
+        ].filter(e => !!e.text),
   );
+}
+
+export function mutateCallback(
+  {hide, show}: CtrlProps,
+  withDefault = true,
+): any {
+  return {
+    ...(withDefault
+      ? {
+          onError() {
+            prompt('Something went wrong', 'Pleas tray again');
+          },
+        }
+      : {}),
+    onMutate() {
+      show?.();
+    },
+    onSettled() {
+      hide?.();
+    },
+  } as MutateOpts;
 }

@@ -2,8 +2,8 @@ import {useInfiniteQuery, useMutation, useQuery} from '@tanstack/react-query';
 import axios from 'axios';
 import {getRecoil} from 'recoil-nexus';
 
-import {tUser} from '@appTypes/app.zod';
-import {API_HOST} from '@constants';
+import {TUser, tUser} from '@appTypes/app.zod';
+import {MutateOpts} from '@appTypes/propsType.type';
 import {atomApiHost} from '@recoils';
 import {createPagingResultSchema, createResultSchema} from '@utils';
 
@@ -44,8 +44,34 @@ export function useUser(id?: string) {
   });
 }
 
-export function useMutateNewChat() {
-  return useMutation((message: string) => {
-    return axios.post<string>(`${API_HOST}/chats/${message}`);
-  });
+export function useNewUser(mutateOpts?: MutateOpts) {
+  const host = getRecoil(atomApiHost);
+
+  return useMutation((user: TUser) => {
+    const {id, email, first_name, last_name} = user;
+    return axios.post<string>(`${host}/users/${id}`, {
+      name: `${first_name} ${last_name}`,
+      job: email,
+    });
+  }, mutateOpts);
+}
+
+export function useEditUser(mutateOpts?: MutateOpts) {
+  const host = getRecoil(atomApiHost);
+
+  return useMutation((user: TUser) => {
+    const {id, email, first_name, last_name} = user;
+    return axios.put<string>(`${host}/users/${id}`, {
+      name: `${first_name} ${last_name}`,
+      job: email,
+    });
+  }, mutateOpts);
+}
+
+export function useDeleteUser(mutateOpts?: MutateOpts) {
+  const host = getRecoil(atomApiHost);
+
+  return useMutation((id: string) => {
+    return axios.delete<void>(`${host}/users/${id}`);
+  }, mutateOpts);
 }

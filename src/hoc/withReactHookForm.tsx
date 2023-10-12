@@ -33,11 +33,11 @@ export type WrappedProps<F extends FieldValues, T extends {}> = Omit<
 } & Omit<T, keyof ControlledComponentProps<F>> &
   DefaultProps;
 
-export const withReactFormController = <T extends {}, F extends FieldValues>(
+export function withReactFormController<T extends {}, F extends FieldValues>(
   Component: (
     controlledComponentProps: Required<ControlledComponentProps<F>> & T,
   ) => JSX.Element,
-) => {
+) {
   return function Decorated({
     rules = {},
     control,
@@ -67,4 +67,4 @@ export const withReactFormController = <T extends {}, F extends FieldValues>(
       />
     );
   };
-};
+}

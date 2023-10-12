@@ -9,21 +9,25 @@ import {TUser} from '@appTypes/app.zod';
 import {RootStackList} from '@appTypes/navigators.type';
 import {Icon, Input} from '@components';
 import {ESubmitType} from '@constants/enum.const';
-import {useUser} from '@query';
-import {useStackNavigation} from '@utils';
+import {withLoader} from '@hoc/withLoader';
+import {useDeleteUser, useEditUser, useNewUser, useUser} from '@query';
+import {prompt, useStackNavigation} from '@utils';
 
 type FormType = {
   type: ESubmitType;
   user?: TUser;
 };
 
-export default function UserScreen() {
+export default withLoader(function UserScreen({mutateOpts}) {
   const [isEditing, setIsEditing] = useState(false);
   const {navigation, route} = useStackNavigation<RootStackList.User>();
   const {id} = route.params ?? {};
 
   const {data} = useUser(id);
-  const {control, watch, reset} = useForm<FormType>({
+  const {mutateAsync: addUser} = useNewUser(mutateOpts);
+  const {mutateAsync: editUser} = useEditUser(mutateOpts);
+  const {mutateAsync: deleteUser} = useDeleteUser(mutateOpts);
+  const {control, watch, reset, handleSubmit} = useForm<FormType>({
     defaultValues: {type: ESubmitType.Add},
   });
 
@@ -39,15 +43,44 @@ export default function UserScreen() {
     ? 'content-save-edit-outline'
     : 'content-save-outline';
 
-  function onSave() {}
+  const onSave = handleSubmit(async value => {
+    if (isEdit) {
+      await editUser(value.user!);
+      setIsEditing(false);
+      prompt('Success edit user');
+    } else {
+      await addUser(value.user!);
+      prompt('Success add user');
+    }
+  });
 
-  function removeUser() {}
+  useEffect(() => {
+    if (id) reset(prev => ({...prev, type: ESubmitType.Edit}));
+  }, [id, reset]);
+
+  useEffect(() => {
+    if (data) reset(prev => ({...prev, user: data.data}));
+  }, [data, reset]);
 
   useEffect(() => {
     function resetEdit() {
       setIsEditing(false);
       reset(prev => ({...prev, user: data?.data}));
     }
+
+    function removeUser() {
+      prompt('Delete this user?', {
+        async onConfirm() {
+          await deleteUser(id!);
+          prompt('Success remove user', {
+            noCancel: true,
+            confirmText: 'Ok',
+            onConfirm: navigation.goBack,
+          });
+        },
+      });
+    }
+
     if (isEdit) {
       navigation.setOptions({
         headerRight: () =>
@@ -57,25 +90,17 @@ export default function UserScreen() {
             </TouchableOpacity>
           ) : (
             <View tw="flex-row">
-              <TouchableOpacity tw="mr-4" onPress={removeUser}>
+              <TouchableOpacity onPress={() => setIsEditing(true)}>
                 <Icon name="circle-edit-outline" />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setIsEditing(true)}>
+              <TouchableOpacity tw="ml-4" onPress={removeUser}>
                 <Icon name="trash-can-outline" />
               </TouchableOpacity>
             </View>
           ),
       });
     }
-  }, [data?.data, isEdit, isEditing, navigation, reset]);
-
-  useEffect(() => {
-    if (id) reset(prev => ({...prev, type: ESubmitType.Edit}));
-  }, [id, reset]);
-
-  useEffect(() => {
-    if (data) reset(prev => ({...prev, user: data.data}));
-  }, [data, reset]);
+  }, [data?.data, deleteUser, id, isEdit, isEditing, navigation, reset]);
 
   return (
     <AppScreen>
@@ -116,4 +141,4 @@ export default function UserScreen() {
       </ScrollView>
     </AppScreen>
   );
-}
+});

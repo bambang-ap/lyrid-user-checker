@@ -104,7 +104,7 @@ module.exports = {
           },
         ],
 
-        '@typescript-eslint/no-explicit-any': 2,
+        '@typescript-eslint/no-explicit-any': 1,
         'unused-imports/no-unused-vars': 1,
         'unused-imports/no-unused-imports': 2,
         'unused-imports/no-unused-vars': 1,

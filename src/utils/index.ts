@@ -1,3 +1,67 @@
+import {Alert} from 'react-native';
+
 import clsx from 'clsx';
+import {z} from 'zod';
+
+import {PromptOptions} from '@appTypes/propsType.type';
+
+export * from './navigators';
+export {default as twColor} from 'tailwindcss/colors';
 
 export const classNames = clsx;
+
+export function createResultSchema<T extends z.ZodTypeAny>(tSchema: T) {
+  const schema = z.object({
+    data: tSchema,
+    support: z.object({
+      url: z.string(),
+      text: z.string(),
+    }),
+  });
+
+  return {schema, obj: {} as z.infer<typeof schema>};
+}
+
+export function createPagingResultSchema<T extends z.ZodTypeAny>(tSchema: T) {
+  const resultSchema = createResultSchema(z.array(tSchema));
+
+  const schema = resultSchema.schema.extend({
+    page: z.number(),
+    per_page: z.number(),
+    total: z.number(),
+    total_pages: z.number(),
+  });
+
+  return {schema, obj: {} as z.infer<typeof schema>};
+}
+
+export function entries<T extends object>(obj?: T) {
+  if (!obj) return [];
+
+  return Object.entries(obj) as Entries<T>;
+}
+
+export function prompt(message: string, options?: PromptOptions): void;
+export function prompt(
+  title: string,
+  message: string,
+  options?: PromptOptions,
+): void;
+export function prompt(
+  titleOrMessage: string,
+  messageOrOptions?: string | PromptOptions,
+  promptOptions?: PromptOptions,
+) {
+  const isHasTitle = typeof messageOrOptions === 'string';
+  const options = isHasTitle ? promptOptions : messageOrOptions;
+
+  Alert.prompt(
+    isHasTitle ? titleOrMessage : 'Alert',
+    isHasTitle ? messageOrOptions : titleOrMessage,
+    [
+      {text: options?.confirmText ?? 'Yes', onPress: options?.onConfirm},
+      {text: options?.cancelText ?? 'No', onPress: options?.onCancel},
+    ],
+    'default',
+  );
+}

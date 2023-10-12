@@ -1,13 +1,8 @@
 import {atom} from 'recoil';
 
-import {MenuList} from '@appTypes/navigators.type';
+import {API_HOST} from '@constants';
 
-export const atomMenu = atom<MenuList>({
-  key: 'atomMenu',
-  default: MenuList.Chats,
-});
-
-export const atomMessageSearch = atom({
-  key: 'atomMessageSearch',
-  default: {isSearching: false, searchText: '', currentIndex: -1},
+export const atomApiHost = atom<string>({
+  key: 'atomApiHost',
+  default: API_HOST,
 });

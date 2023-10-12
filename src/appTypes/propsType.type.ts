@@ -1,24 +1,16 @@
 import {PropsWithChildren} from 'react';
 
-import {FontAwesome5IconProps} from 'react-native-vector-icons/FontAwesome5';
+import {IconProps as PropsIcon} from 'react-native-vector-icons/Icon';
 
-import {TChat, TUser} from './data.type';
-
-export type IconProps = Pick<FontAwesome5IconProps, 'onPress'> & {
+export type IconProps = Pick<PropsIcon, 'onPress'> & {
   /**
-   * find icon name on https://fontawesome.com/v5/search
+   * find icon name on https://static.enapter.com/rn/icons/material-community.html
    */
   name: string;
-  className?: string;
+  tw?: string;
 };
 
-export type AppScreenProps = PropsWithChildren<{className?: string}>;
-
-export type UserBubblesProps = {users: TUser[]};
-
-export type UserImageProps = TUser & {sizeClassName?: string};
-
-export type ChatBubbleProps = TChat;
+export type AppScreenProps = PropsWithChildren<{twClass?: string}>;
 
 export type MessagesRef = {
   scrollToIndex?: (index: number) => void;
@@ -29,4 +21,11 @@ export type InputProps = {
   autoFocus?: boolean;
   multiline?: boolean;
   label?: string;
+};
+
+export type PromptOptions = {
+  onConfirm: NoopVoid;
+  onCancel?: NoopVoid;
+  cancelText?: string;
+  confirmText?: string;
 };

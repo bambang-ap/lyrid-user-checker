@@ -17,3 +17,7 @@ type ApiResponsePagination<T> = ApiResponse<{
   totalCount: number;
   data: T[];
 }>;
+
+type Entries<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];

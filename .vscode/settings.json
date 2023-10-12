@@ -1,5 +1,7 @@
 {
-	"cSpell.words": [],
+	"cSpell.words": [
+		"Reqres"
+	],
 	"[javascript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
@@ -32,6 +34,8 @@
 	"typescript.preferences.quoteStyle": "single",
 	"files.eol": "\n",
 	"tailwindCSS.classAttributes": [
+		"tw",
+		"twClass",
 		"className",
 		"className\\w+",
 		"\\w+ClassName"

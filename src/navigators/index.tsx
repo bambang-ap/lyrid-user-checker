@@ -1,40 +1,40 @@
-import * as React from 'react';
-import {View} from 'react-native';
-import {} from 'tailwindcss';
+import React from 'react';
 
 import {getHeaderTitle} from '@react-navigation/elements';
 import {
   createNativeStackNavigator,
   NativeStackHeaderProps,
 } from '@react-navigation/native-stack';
-import {useForm} from 'react-hook-form';
-import {Appbar, Button, Menu, Text} from 'react-native-paper';
+import {Appbar, Menu} from 'react-native-paper';
 
-import {RootStackParamList} from '@appTypes/navigators.type';
-import {Input} from '@components';
-import {useStackNavigation} from '@utils/navigators';
+import {RootStackList, RootStackParamList} from '@appTypes/navigators.type';
+import AuthScreen from '@screens/Auth';
+import ListUsersScreen from '@screens/ListUsers';
+import UserScreen from '@screens/User';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        header: CustomNavigationBar,
-        contentStyle: {padding: 20},
-      }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Details" component={DetailsScreen} />
+      initialRouteName={RootStackList.Auth}
+      screenOptions={{header: CustomNavBar}}>
+      <Stack.Screen name={RootStackList.Auth} component={AuthScreen} />
+      <Stack.Screen
+        name={RootStackList.ListUsers}
+        component={ListUsersScreen}
+      />
+      <Stack.Screen name={RootStackList.User} component={UserScreen} />
     </Stack.Navigator>
   );
 }
-function CustomNavigationBar(props: NativeStackHeaderProps) {
+function CustomNavBar(props: NativeStackHeaderProps) {
   const {navigation, route, options, back} = props;
 
   const [visible, setVisible] = React.useState(false);
 
   const title = getHeaderTitle(options, route.name);
+  const isAuth = route.name === RootStackList.Auth;
 
   function openMenu() {
     setVisible(true);
@@ -43,8 +43,10 @@ function CustomNavigationBar(props: NativeStackHeaderProps) {
     setVisible(false);
   }
 
+  if (isAuth) return null;
+
   return (
-    <Appbar.Header>
+    <Appbar.Header mode="small" tw="bg-slate-200 rounded-b-3xl">
       {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
       <Appbar.Content title={title} />
       {!back && (
@@ -76,28 +78,3 @@ function CustomNavigationBar(props: NativeStackHeaderProps) {
     </Appbar.Header>
   );
 }
-
-function HomeScreen() {
-  const {navigation} = useStackNavigation();
-
-  return (
-    <View className={className}>
-      <Text>Home Screen</Text>
-      <Button mode="contained" onPress={() => navigation.navigate('Details')}>
-        Go to details
-      </Button>
-    </View>
-  );
-}
-
-function DetailsScreen() {
-  const {control} = useForm();
-  return (
-    <View className={className}>
-      <Text>Details Screen</Text>
-      <Input control={control} fieldName="jsdfksjfd" />
-    </View>
-  );
-}
-
-const className = '';

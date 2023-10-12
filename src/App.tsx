@@ -10,6 +10,9 @@ import {
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {PaperProvider} from 'react-native-paper';
 import {RecoilRoot} from 'recoil';
+import RecoilNexus from 'recoil-nexus';
+
+import {twColor} from '@utils';
 
 import RootStackNavigator from './navigators';
 
@@ -21,10 +24,11 @@ function App() {
   const [initialState] = React.useState();
 
   return (
-    <SafeAreaView className="flex-1">
-      <StatusBar barStyle="dark-content" />
+    <SafeAreaView tw="flex-1">
+      <StatusBar barStyle="dark-content" backgroundColor={twColor.white} />
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
+          <RecoilNexus />
           <PaperProvider>
             <NavigationContainer initialState={initialState} ref={ref}>
               <RootStackNavigator />

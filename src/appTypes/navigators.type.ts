@@ -1,19 +1,11 @@
-import {TUser} from './data.type';
-
 export enum RootStackList {
-  Chats = 'Chats',
-  Chat = 'Chat',
-  UserInfo = 'UserInfo',
-}
-
-export enum MenuList {
-  Chats = 'Chats',
-  Status = 'Status',
-  Calls = 'Calls',
+  Auth = 'Auth',
+  ListUsers = 'ListUsers',
+  User = 'User',
 }
 
 export type RootStackParamList = {
-  [RootStackList.Chats]: undefined;
-  [RootStackList.Chat]: TUser;
-  [RootStackList.UserInfo]: TUser;
+  [RootStackList.Auth]: undefined;
+  [RootStackList.ListUsers]: undefined;
+  [RootStackList.User]: undefined;
 };

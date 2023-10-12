@@ -1,3 +1,54 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json"
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "include": [
+    "./**/*"
+  ],
+  "compilerOptions": {
+    "jsx": "react",
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "declaration": false,
+    "baseUrl": ".",
+    "paths": {
+      "@appTypes/*": [
+        "./src/appTypes/*"
+      ],
+      "@constants": [
+        "./src/constants"
+      ],
+      "@constants/*": [
+        "./src/constants/*"
+      ],
+      "@query": [
+        "./src/react-query"
+      ],
+      "@hoc/*": [
+        "./src/hoc/*"
+      ],
+      "@components": [
+        "./src/components"
+      ],
+      "@appComp/*": [
+        "./src/components/appComponents/*"
+      ],
+      "@screenComp/*": [
+        "./src/components/screenComponents/*"
+      ],
+      "@navigators/*": [
+        "./src/navigators/*"
+      ],
+      "@recoils": [
+        "./src/recoils"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@utils": [
+        "./src/utils"
+      ],
+      "@screens/*": [
+        "./src/screens/*"
+      ]
+    }
+  }
 }

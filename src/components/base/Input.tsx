@@ -23,6 +23,7 @@ function InputComponent<F extends FieldValues>(
     placeholder,
     autoFocus,
     multiline,
+    secure,
   } = props;
   const {
     field: {value, onChange, ...field},
@@ -45,6 +46,7 @@ function InputComponent<F extends FieldValues>(
       placeholder={placeholder}
       underlineColor={twColor.transparent}
       onSubmitEditing={onSubmit}
+      secureTextEntry={secure}
     />
   );
 }

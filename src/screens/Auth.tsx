@@ -38,7 +38,7 @@ export default withLoader(function AuthScreen({mutateOpts}) {
         fieldName="email"
         onSubmit={signIn}
       />
-      <Input control={control} fieldName="password" onSubmit={signIn} />
+      <Input secure control={control} fieldName="password" onSubmit={signIn} />
       <Button onPress={signIn} mode="contained">
         Sign In
       </Button>

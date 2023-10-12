@@ -31,6 +31,7 @@ export type InputProps = {
   multiline?: boolean;
   label?: string;
   onSubmit?: NoopVoid;
+  secure?: boolean;
 };
 
 export type IconProps = Pick<PropsIcon, 'onPress'> & {

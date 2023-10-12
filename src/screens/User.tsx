@@ -51,6 +51,7 @@ export default withLoader(function UserScreen({mutateOpts}) {
     } else {
       await addUser(value.user!);
       prompt('Success add user');
+      reset(prev => ({...prev, type: ESubmitType.Edit}));
     }
   });
 
@@ -124,6 +125,7 @@ export default withLoader(function UserScreen({mutateOpts}) {
           label="Email"
           fieldName="user.email"
           twClass="mb-2"
+          onSubmit={onSave}
         />
         <Input
           disabled={isDisabled}
@@ -131,12 +133,14 @@ export default withLoader(function UserScreen({mutateOpts}) {
           label="First Name"
           fieldName="user.first_name"
           twClass="mb-2"
+          onSubmit={onSave}
         />
         <Input
           disabled={isDisabled}
           control={control}
           label="Last Name"
           fieldName="user.last_name"
+          onSubmit={onSave}
         />
       </ScrollView>
     </AppScreen>

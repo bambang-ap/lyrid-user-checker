@@ -71,7 +71,7 @@ export function useEditUser(mutateOpts?: MutateOpts) {
 export function useDeleteUser(mutateOpts?: MutateOpts) {
   const host = getRecoil(atomApiHost);
 
-  return useMutation((id: TUserJob) => {
+  return useMutation((id: string) => {
     return axios.delete<void>(`${host}/users/${id}`);
   }, mutateOpts);
 }
